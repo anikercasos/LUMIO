@@ -19,7 +19,7 @@
     #container {
       position: relative;
       width: 100%;
-      max-width: 900px;
+      max-width: 900px; /* Ancho máximo */
       aspect-ratio: 16/9;
       margin: 20px auto;
       border-radius: 12px;
@@ -33,7 +33,7 @@
     video {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* Cambié object-fit a cover para llenar el espacio */
+      object-fit: contain; /* Mantiene la proporción sin recortar */
       display: none;
       opacity: 0;
       transition: opacity 1s ease-in-out;
@@ -45,7 +45,7 @@
       bottom: 14%;
       width: 100%;
       text-align: center;
-      font-size: clamp(16px, 2vw, 24px);
+      font-size: clamp(16px, 2vw, 24px); /* Ajusta el tamaño según la pantalla */
       color: #ffd700;
       text-shadow: 2px 2px 4px #000;
       padding: 8px;
@@ -64,7 +64,7 @@
 
     .btn {
       padding: 12px 22px;
-      font-size: clamp(16px, 2vw, 20px);
+      font-size: clamp(16px, 2vw, 20px); /* Ajusta el tamaño de fuente */
       border: none;
       border-radius: 10px;
       background: #ffd700;
@@ -81,8 +81,10 @@
 
     #startScreen {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: black;
       display: flex;
       flex-direction: column;
@@ -112,13 +114,12 @@
     /* Media Queries */
     @media (max-width: 768px) {
       #container {
-        aspect-ratio: 16/9;
+        aspect-ratio: 4/3; /* Relación de aspecto adaptada a dispositivos más pequeños */
         margin: 10px auto;
       }
 
       #textBox {
         font-size: clamp(14px, 3vw, 18px);
-        bottom: 18%;
       }
 
       #buttons {
@@ -139,13 +140,12 @@
 
     @media (max-width: 480px) {
       #container {
-        aspect-ratio: 16/9;
+        aspect-ratio: 4/3;
         margin: 5px auto;
       }
 
       #textBox {
         font-size: clamp(14px, 4vw, 16px);
-        bottom: 22%;
       }
 
       #buttons {
@@ -241,11 +241,44 @@ const startBtn = document.getElementById('startBtn');
 
 startBtn.onclick = () => {
   startScreen.style.display = 'none';
-  document.getElementById('backgroundMusic').play();  // Reproduce música de fondo al hacer clic
+  document.getElementById('backgroundMusic').play();
   playVideo('intro');
 };
 
-// Resto del código de control de video sigue igual...
+// Función para ocultar todos los videos
+function hideAllVideos() {
+  Object.values(videos).forEach(v => {
+    v.pause();
+    v.style.display = 'none';
+    v.style.opacity = 0;
+  });
+}
+
+// Función para reproducir un video específico
+function playVideo(id) {
+  hideAllVideos();
+  const video = videos[id];
+  video.style.display = 'block';
+  setTimeout(() => video.style.opacity = 1, 50);
+  video.currentTime = 0;
+  video.play().catch(() => console.log("Video no se pudo iniciar (requiere interacción)."));
+  textBox.innerHTML = texts[id] || '';
+  buttonsDiv.innerHTML = '';
+}
+
+// Función para mostrar los botones de opción
+function showButtons(options) {
+  buttonsDiv.innerHTML = '';
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.classList.add('btn');
+    btn.textContent = opt.text;
+    btn.onclick = () => playVideo(opt.next);
+    buttonsDiv.appendChild(btn);
+  });
+}
+
+// Video control events as before...
 </script>
 
 </body>
