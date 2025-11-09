@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feliz Cumpleaños Մելո 💖</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      font-family: 'Trebuchet MS', sans-serif;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    #container {
+      position: relative;
+      width: 90%;
+      max-width: 900px;
+      aspect-ratio: 16/9;
+      margin: 20px auto;
+      border-radius: 12px;
+      overflow: hidden;
+      background: radial-gradient(circle, #222 0%, #000 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: none;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      background: black;
+    }
+
+    #textBox {
+      position: absolute;
+      bottom: 14%;
+      width: 100%;
+      text-align: center;
+      font-size: clamp(16px, 2vw, 24px);
+      color: #ffd700;
+      text-shadow: 2px 2px 4px #000;
+      padding: 8px;
+    }
+
+    #buttons {
+      position: absolute;
+      bottom: 5%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      padding: 10px;
+    }
+
+    .btn {
+      padding: 12px 22px;
+      font-size: clamp(16px, 2vw, 20px);
+      border: none;
+      border-radius: 10px;
+      background: #ffd700;
+      color: #000;
+      cursor: pointer;
+      box-shadow: 0 0 10px #fff;
+      transition: all 0.3s;
+    }
+
+    .btn:hover {
+      background: #fff;
+      transform: scale(1.05);
+    }
+
+    #startScreen {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: black;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      color: white;
+    }
+
+    #startBtn {
+      padding: 14px 30px;
+      font-size: 1.3em;
+      background: #ffd700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 20px;
+      box-shadow: 0 0 10px #fff;
+    }
+
+    #startBtn:hover {
+      background: white;
+      color: black;
+      transform: scale(1.05);
+    }
+
+    /* Media Queries */
+    @media (max-width: 768px) {
+      #container {
+        aspect-ratio: 4/3;
+        margin: 10px auto;
+      }
+
+      #textBox {
+        font-size: clamp(14px, 3vw, 18px);
+      }
+
+      #buttons {
+        gap: 20px;
+        padding: 5px;
+      }
+
+      .btn {
+        font-size: clamp(14px, 3vw, 18px);
+        padding: 10px 20px;
+      }
+
+      #startBtn {
+        font-size: 1.1em;
+        padding: 12px 25px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #container {
+        aspect-ratio: 4/3;
+        margin: 5px auto;
+      }
+
+      #textBox {
+        font-size: clamp(14px, 4vw, 16px);
+      }
+
+      #buttons {
+        gap: 15px;
+        padding: 5px;
+      }
+
+      .btn {
+        font-size: clamp(14px, 4vw, 16px);
+        padding: 8px 18px;
+      }
+
+      #startBtn {
+        font-size: 1em;
+        padding: 10px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Música de fondo -->
+<audio id="backgroundMusic" loop preload="auto">
+  <source src="musica-de-fondo.mp3" type="audio/mp3">
+  Tu navegador no soporta el audio.
+</audio>
+
+<div id="startScreen">
+  <h2>✨Սեղմի՛ր, որպեսզի սկսվի հեքիաթը✨</h2>
+  <button id="startBtn">ՍԿՍԵԼ 💖</button>
+</div>
+
+<div id="container">
+  <video id="intro" src="intro.mp4" muted playsinline preload="auto"></video>
+  <video id="video1" src="video1.mp4" preload="auto"></video>
+  <video id="video1a" src="video1a.mp4" preload="auto"></video>
+  <video id="video1b" src="video1b.mp4" preload="auto"></video>
+  <video id="video2" src="video2.mp4" preload="auto"></video>
+  <video id="video2a" src="video2a.mp4" preload="auto"></video>
+  <video id="video2b" src="video2b.mp4" preload="auto"></video>
+  <video id="video3" src="video3.mp4" preload="auto"></video>
+  <video id="video3a" src="video3a.mp4" preload="auto"></video>
+  <video id="video3b" src="video3b.mp4" preload="auto"></video>
+  <video id="video4" src="video4.mp4" preload="auto"></video>
+  <video id="video4a" src="video4a.mp4" preload="auto"></video>
+  <video id="video4b" src="video4b.mp4" preload="auto"></video>
+  <video id="video5" src="video5.mp4" preload="auto"></video>
+
+  <div id="textBox"></div>
+  <div id="buttons"></div>
+</div>
+
+<script>
+const videos = {
+  intro: document.getElementById('intro'),
+  1: document.getElementById('video1'),
+  1.1: document.getElementById('video1a'),
+  1.2: document.getElementById('video1b'),
+  2: document.getElementById('video2'),
+  2.1: document.getElementById('video2a'),
+  2.2: document.getElementById('video2b'),
+  3: document.getElementById('video3'),
+  3.1: document.getElementById('video3a'),
+  3.2: document.getElementById('video3b'),
+  4: document.getElementById('video4'),
+  4.1: document.getElementById('video4a'),
+  4.2: document.getElementById('video4b'),
+  5: document.getElementById('video5')
+};
+
+const texts = {
+  intro: "🌟 Լինում է չի լինում մի տղա է լինում Լումիո անունով... 😀🥰💫",
+  1: "Այստեղ սկսվում են Լումիոյի արկածները հեքիաթային անտառում... Օգնի՛ր նրան ստեղծել իր հեքիաթը 💫",
+  1.1: "Փերին հիասթափված, բայց վճռական շարունակում է ճանապարհը",
+  1.2: "Փերին ուղեկցում է Լումիոյին դեպի կախարդական դարպասները",
+  2: "Ճանապարհը կախարդական է, բայց լի թակարդներով...",
+  2.1: "Փերին իր գեղեցիկ թևերի թափահարությամբ բացում է առաջին հուշումը",
+  2.2: "Փերիի պարը արթնացնում է Լումիոյի գաղտնի ցանկությունները",
+  3: "Լումիոն արտասանում է կախարդական բառը...",
+  3.1: "Լույսի պայթյուն... և Լումիոն հայտնվում է սարի գագաթին... Փերին սարսափած կանգնեցնում է նրան",
+  3.2: "Ծնունդդ շնորհավոր, Լումիոս 💗",
+  4: "Լումիո՛, ես գտել եմ այն, ինչ քոնն է...",
+  4.1: "Թո՛ղ միշտ հեքիաթային լինեն քո ճանապարհները 😘",
+  4.2: "Թո՛ղ միայն ջերմ և խաղաղ պահեր լինեն քո կյանքում... 🥰",
+  5: "¡Feliz cumpleaños, իմ Միլաշոկ! 💖🎁"
+};
+
+const textBox = document.getElementById('textBox');
+const buttonsDiv = document.getElementById('buttons');
+const startScreen = document.getElementById('startScreen');
+const startBtn = document.getElementById('startBtn');
+
+startBtn.onclick = () => {
+  startScreen.style.display = 'none';
+  document.getElementById('backgroundMusic').play();  // Reproduce música de fondo al hacer clic
+  playVideo('intro');
+};
+
+// Función para ocultar todos los videos
+function hideAllVideos() {
+  Object.values(videos).forEach(v => {
+    v.pause();
+    v.style.display = 'none';
+    v.style.opacity = 0;
+  });
+}
+
+// Función para reproducir un video específico
+function playVideo(id) {
+  hideAllVideos();
+  const video = videos[id];
+  video.style.display = 'block';
+  setTimeout(() => video.style.opacity = 1, 50);
+  video.currentTime = 0;
+  video.play().catch(() => console.log("Video no se pudo iniciar (requiere interacción)."));
+  textBox.innerHTML = texts[id] || '';
+  buttonsDiv.innerHTML = '';
+}
+
+// Función para mostrar los botones de opción
+function showButtons(options) {
+  buttonsDiv.innerHTML = '';
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.classList.add('btn');
+    btn.textContent = opt.text;
+    btn.onclick = () => playVideo(opt.next);
+    buttonsDiv.appendChild(btn);
+  });
+}
+
+videos.intro.onended = () => setTimeout(() => playVideo(1), 800);
+videos[1].onended = () => {
+  textBox.innerHTML = texts[1];
+  showButtons([
+    { text: 'Մերժել փերիին և գաղտնի հետևել նրան', next: 1.1 },
+    { text: 'Գնալ փերիի առաջարկած ճանապարհով', next: 1.2 }
+  ]);
+};
+
+videos[1.1].onended = () => setTimeout(() => playVideo(2), 800);
+videos[1.2].onended = () => setTimeout(() => playVideo(2), 800);
+
+videos[2].onended = () => {
+  textBox.innerHTML = texts[2];
+  showButtons([
+    { text: 'Գնալ դեպի գետակը', next: 2.1 },
+    { text: 'Գնալ դեպի լույսը', next: 2.2 }
+  ]);
+};
+
+videos[2.1].onended = () => setTimeout(() => playVideo(3), 800);
+videos[2.2].onended = () => setTimeout(() => playVideo(3), 800);
+
+videos[3].onended = () => {
+  textBox.innerHTML = texts[3];
+  showButtons([
+    { text: 'Շարունակել փնտրել նվերը միայնակ', next: 3.1 },
+    { text: 'Հանգստանալ փերիի հետ և կենաց խմել', next: 3.2 }
+  ]);
+};
+
+videos[3.1].onended = () => setTimeout(() => playVideo(4), 800);
+videos[3.2].onended = () => setTimeout(() => playVideo(4), 800);
+
+videos[4].onended = () => {
+  textBox.innerHTML = texts[4];
+  showButtons([
+    { text: 'Ընդունել փերիի նվերը', next: 4.1 },
+    { text: 'Լուռ ժպտալ', next: 4.2 }
+  ]);
+};
+
+videos[4.1].onended = () => setTimeout(() => playVideo(5), 800);
+videos[4.2].onended = () => setTimeout(() => playVideo(5), 800);
+
+videos[5].onended = () => {
+  textBox.innerHTML = texts[5];
+  const giftBtn = document.createElement('button');
+  giftBtn.classList.add('btn');
+  giftBtn.textContent = 'Բացել նվերը 🎁';
+  giftBtn.onclick = () => window.open('https://dplink.arrture.com/giftcard?type=giftcard&mbrId=6129203845&checkRegistration=true&openUrl=https://www.mysmarttraveller.com/login&email=melik.yero7%40gmail.com&language=en', '_blank');
+  buttonsDiv.appendChild(giftBtn);
+};
+</script>
+
+</body>
+</html>
