@@ -18,8 +18,8 @@
 
     #container {
       position: relative;
-      width: 100%;
-      max-width: 900px; /* Ancho máximo */
+      width: 90%;
+      max-width: 900px;
       aspect-ratio: 16/9;
       margin: 20px auto;
       border-radius: 12px;
@@ -33,7 +33,7 @@
     video {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* Mantiene la proporción sin recortar */
+      object-fit: contain;
       display: none;
       opacity: 0;
       transition: opacity 1s ease-in-out;
@@ -45,7 +45,7 @@
       bottom: 14%;
       width: 100%;
       text-align: center;
-      font-size: clamp(16px, 2vw, 24px); /* Ajusta el tamaño según la pantalla */
+      font-size: clamp(16px, 2vw, 24px);
       color: #ffd700;
       text-shadow: 2px 2px 4px #000;
       padding: 8px;
@@ -64,7 +64,7 @@
 
     .btn {
       padding: 12px 22px;
-      font-size: clamp(16px, 2vw, 20px); /* Ajusta el tamaño de fuente */
+      font-size: clamp(16px, 2vw, 20px);
       border: none;
       border-radius: 10px;
       background: #ffd700;
@@ -81,10 +81,8 @@
 
     #startScreen {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: black;
       display: flex;
       flex-direction: column;
@@ -114,7 +112,7 @@
     /* Media Queries */
     @media (max-width: 768px) {
       #container {
-        aspect-ratio: 4/3; /* Relación de aspecto adaptada a dispositivos más pequeños */
+        aspect-ratio: 4/3;
         margin: 10px auto;
       }
 
@@ -199,7 +197,6 @@
 </div>
 
 <script>
-// Video and Text control code (similar as before)
 const videos = {
   intro: document.getElementById('intro'),
   1: document.getElementById('video1'),
@@ -241,7 +238,7 @@ const startBtn = document.getElementById('startBtn');
 
 startBtn.onclick = () => {
   startScreen.style.display = 'none';
-  document.getElementById('backgroundMusic').play();
+  document.getElementById('backgroundMusic').play();  // Reproduce música de fondo al hacer clic
   playVideo('intro');
 };
 
@@ -278,7 +275,59 @@ function showButtons(options) {
   });
 }
 
-// Video control events as before...
+videos.intro.onended = () => setTimeout(() => playVideo(1), 800);
+videos[1].onended = () => {
+  textBox.innerHTML = texts[1];
+  showButtons([
+    { text: 'Մերժել փերիին և գաղտնի հետևել նրան', next: 1.1 },
+    { text: 'Գնալ փերիի առաջարկած ճանապարհով', next: 1.2 }
+  ]);
+};
+
+videos[1.1].onended = () => setTimeout(() => playVideo(2), 800);
+videos[1.2].onended = () => setTimeout(() => playVideo(2), 800);
+
+videos[2].onended = () => {
+  textBox.innerHTML = texts[2];
+  showButtons([
+    { text: 'Գնալ դեպի գետակը', next: 2.1 },
+    { text: 'Գնալ դեպի լույսը', next: 2.2 }
+  ]);
+};
+
+videos[2.1].onended = () => setTimeout(() => playVideo(3), 800);
+videos[2.2].onended = () => setTimeout(() => playVideo(3), 800);
+
+videos[3].onended = () => {
+  textBox.innerHTML = texts[3];
+  showButtons([
+    { text: 'Շարունակել փնտրել նվերը միայնակ', next: 3.1 },
+    { text: 'Հանգստանալ փերիի հետ և կենաց խմել', next: 3.2 }
+  ]);
+};
+
+videos[3.1].onended = () => setTimeout(() => playVideo(4), 800);
+videos[3.2].onended = () => setTimeout(() => playVideo(4), 800);
+
+videos[4].onended = () => {
+  textBox.innerHTML = texts[4];
+  showButtons([
+    { text: 'Ընդունել փերիի նվերը', next: 4.1 },
+    { text: 'Լուռ ժպտալ', next: 4.2 }
+  ]);
+};
+
+videos[4.1].onended = () => setTimeout(() => playVideo(5), 800);
+videos[4.2].onended = () => setTimeout(() => playVideo(5), 800);
+
+videos[5].onended = () => {
+  textBox.innerHTML = texts[5];
+  const giftBtn = document.createElement('button');
+  giftBtn.classList.add('btn');
+  giftBtn.textContent = 'Բացել նվերը 🎁';
+  giftBtn.onclick = () => window.open('https://dplink.arrture.com/giftcard?type=giftcard&mbrId=6129203845&checkRegistration=true&openUrl=https://www.mysmarttraveller.com/login&email=melik.yero7%40gmail.com&language=en', '_blank');
+  buttonsDiv.appendChild(giftBtn);
+};
 </script>
 
 </body>
